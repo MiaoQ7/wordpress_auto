@@ -50,7 +50,7 @@ def send_to_wordpress(post, base_url, username, password):
     'category': post['category']
   }
   # post.post_status有publish发布、draft草稿、private隐私状态可选,默认草稿。如果是publish会直接发布
-  send_post.post_status = 'draft'
+  send_post.post_status = 'publish'
   #推送文章到WordPress网站
   wp.call(NewPost(send_post))
 

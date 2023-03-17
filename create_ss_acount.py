@@ -8,19 +8,19 @@ import send_to_article
 
 USER_LIST_FILE='user.json'
 USERNAME_PREV='user'
-ACCOUNT_NUM=2
+ACCOUNT_NUM=10
 SERVER_ADDR='ss.miao7.cn'
 
 def add_user(user_info):
   success = []
-  process = pexpect.spawn("bash ssrmu.sh", logfile=sys.stdout)
+  process = pexpect.spawn("bash ssrmu.sh", logfile=sys.stdout, encoding='utf-8')
   process.expect("管理脚本")
   process.sendline("7")
   process.expect("用户配置")
   process.sendline("1")
 
   for user in user_info:
-    create_one_account(process, user['username'], user['port'],user['password'],user['encryption'],user['device_num'],user['one_thread_limit'],user['all_thread_limit'],user['total_limit'])
+    add_one_user(process, user['username'], user['port'],user['password'],user['encryption'],user['device_num'],user['one_thread_limit'],user['all_thread_limit'],user['total_limit'])
     try:
       success.append(user)
       process.expect("是否继续")
@@ -63,13 +63,14 @@ def add_one_user(process, username, port, password, encryption, device_num, one_
 def delete_user():
   if not (os.path.exists(USER_LIST_FILE)):
     return True
-  json.load(open(USER_LIST_FILE, 'r'))
-  for user in user_info:
-    delete_one_account(user['port'])
+  user_info = json.load(open(USER_LIST_FILE, 'r'))
+  for i in range(0,len(user_info)):
+    user = user_info[i]
+    delete_one_user(user['port'])
   return True
 
 def delete_one_user(port):
-  process = pexpect.spawn("bash ssrmu.sh", logfile=sys.stdout)
+  process = pexpect.spawn("bash ssrmu.sh", logfile=sys.stdout, encoding='utf-8')
   process.expect("管理脚本")
   process.sendline("7")
   process.expect("用户配置")

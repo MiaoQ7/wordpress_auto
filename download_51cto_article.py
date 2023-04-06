@@ -199,6 +199,8 @@ content = content.replace("  ", " ")
 # content = content.replace("\n", " ")
 content = content.replace("转载请注明出处", "谢谢")
 content = content.replace("转载注明出处", "谢谢")
+content = content.replace("<colgroup>", "<colgroup1>")
+content = content.replace("</colgroup>", "</colgroup1>")
 with open('content.html', 'w', encoding='utf-8') as f:
   f.write(content)
 
@@ -248,12 +250,15 @@ content = content.replace("  ", " ")
 with open('content.html', 'w', encoding='utf-8') as f:
   f.write(content)
 
+img ='<img style="display: none" src="https://blog.miao7.cn/wp-content/themes/kratos-4.1.6/assets/img/default.jpg" />'
+if (len(replace_src_list) > 0):
+  img =f'<img style="display: none" src="{replace_src_list[0][1]}" />'
 post = {
   'title': article_title,
   'url': article_id,
   'category': ['技术分享'],
   'post_tag': article_tag,
-  'content': '<div style="width:100%;">' + content + '</div>'
+  'content': '<div style="width:100%;">' + img + content + '</div>'
 }
 
 def send_to_wordpress(post, base_url, username, password):

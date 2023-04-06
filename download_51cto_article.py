@@ -224,7 +224,7 @@ def filter_tag(soup):
       if (len(_tag.prettify()) > 50) or '作者' in _tag.prettify():
         # print(r"^<div><" + tag + r"(.*)</" + tag + r'>')
         idx = content.find(f'</{tag}>')
-        content = '<div>' + content[idx + len(f'</{tag}>'):]# re.compile(r"^<div><" + tag + r"(.*?)</" + tag + r'>').sub('<div>', content)
+        content = '<div>' + content[idx + len(f'</{tag}>'):].strip()# re.compile(r"^<div><" + tag + r"(.*?)</" + tag + r'>').sub('<div>', content)
         # print(content)
         # content = content.replace(r"^<div><" + tag + r".*</" + tag + r'>', "<div>")
         filter_tag(bs4.BeautifulSoup(content, 'html.parser'))
@@ -258,7 +258,7 @@ post = {
   'url': article_id,
   'category': ['技术分享'],
   'post_tag': article_tag,
-  'content': bs4.BeautifulSoup('<div>' + img + '<div style="width:100%;">' + content[len('<div>'):] + '</div>', 'html.parser').prettify()
+  'content': '<div>' + img + '<div style="width:100%;">' + content[len('<div>'):] + '</div>'
 }
 
 def send_to_wordpress(post, base_url, username, password):

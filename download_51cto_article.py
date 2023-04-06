@@ -253,7 +253,7 @@ post = {
   'url': article_id,
   'category': ['技术分享'],
   'post_tag': article_tag,
-  'content': content
+  'content': '<div style="width:100%;">' + content + '</div>'
 }
 
 def send_to_wordpress(post, base_url, username, password):

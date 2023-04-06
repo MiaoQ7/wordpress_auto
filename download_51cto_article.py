@@ -196,7 +196,7 @@ pre[class*=language-]>code {
 '''
 content = '<div>' + html[start:end].strip() + '</div>'
 content = content.replace("  ", " ")
-content = content.replace("\n", " ")
+# content = content.replace("\n", " ")
 content = content.replace("转载请注明出处", "谢谢")
 content = content.replace("转载注明出处", "谢谢")
 with open('content.html', 'w', encoding='utf-8') as f:
@@ -221,7 +221,8 @@ def filter_tag(soup):
       _tag = soup.select_one(tag)
       if (len(_tag.prettify()) > 50) or '作者' in _tag.prettify():
         # print(r"^<div><" + tag + r"(.*)</" + tag + r'>')
-        content = re.compile(r"^<div><" + tag + r"(.*?)</" + tag + r'>').sub('<div>', content)
+        idx = content.find(f'</{tag}>')
+        content = '<div>' + content[idx + len(f'</{tag}>'):]# re.compile(r"^<div><" + tag + r"(.*?)</" + tag + r'>').sub('<div>', content)
         # print(content)
         # content = content.replace(r"^<div><" + tag + r".*</" + tag + r'>', "<div>")
         filter_tag(bs4.BeautifulSoup(content, 'html.parser'))

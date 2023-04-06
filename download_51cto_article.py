@@ -258,7 +258,7 @@ post = {
   'url': article_id,
   'category': ['技术分享'],
   'post_tag': article_tag,
-  'content': img + '<div style="width:100%;">' + content[len('<div>'):]
+  'content': bs4.BeautifulSoup('<div>' + img + '<div style="width:100%;">' + content[len('<div>'):] + '</div>', 'html.parser').prettify()
 }
 
 def send_to_wordpress(post, base_url, username, password):
